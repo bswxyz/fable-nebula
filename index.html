@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>document.documentElement.classList.add('js')</script>
+<title>NEBULA DRIFT — A living atlas of the deep sky</title>
+<meta name="description" content="NEBULA DRIFT is a deep-sky observatory and living atlas — a rotating galaxy of a hundred thousand points, catalogued in real coordinates." />
+<meta name="theme-color" content="#05060a" />
+<meta property="og:title" content="NEBULA DRIFT — A living atlas of the deep sky" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./styles.css" />
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="./">NEBULA&nbsp;DRIFT</a>
+  <nav class="nav-links">
+    <a href="#atlas">Atlas</a>
+    <a href="#instrument">Instrument</a>
+    <a href="./guide/">Guide</a>
+  </nav>
+  <div class="coords" aria-hidden="true"><span id="ra">RA 13ʰ29ᵐ</span><span id="dec">DEC +47°11′</span></div>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="eyebrow reveal">Observatory № 7 · Southern array</p>
+    <h1 class="hero-title">
+      <span class="line"><span>NEBULA</span></span>
+      <span class="line"><span>DRIFT</span></span>
+    </h1>
+    <p class="hero-sub reveal">A living atlas of the deep sky — one hundred thousand points of light,
+      turning slowly, catalogued in real coordinates.</p>
+    <div class="hero-actions reveal">
+      <a class="btn" href="#atlas">Open the atlas</a>
+      <span class="live"><i></i>tracking · sidereal</span>
+    </div>
+  </section>
+
+  <section id="atlas" class="atlas">
+    <div class="section-head">
+      <p class="kicker">[ ATLAS ]</p>
+      <h2 class="reveal">Selected objects</h2>
+      <p class="section-note reveal">Four entries from the drift catalogue, as they cross the meridian tonight.</p>
+    </div>
+    <div class="cards">
+      <article class="card reveal" style="--g1:#6ea8ff;--g2:#a98bff;" tabindex="0">
+        <div class="swatch"></div>
+        <p class="obj-id">M51 · NGC 5194</p>
+        <h3>Whirlpool</h3>
+        <dl class="specs">
+          <div><dt>Type</dt><dd>Spiral galaxy</dd></div>
+          <div><dt>RA / Dec</dt><dd>13ʰ29ᵐ · +47°11′</dd></div>
+          <div><dt>Magnitude</dt><dd>8.4</dd></div>
+          <div><dt>Distance</dt><dd>23.0 Mly</dd></div>
+        </dl>
+      </article>
+      <article class="card reveal" style="--g1:#ff9d6e;--g2:#ffd68a;" tabindex="0">
+        <div class="swatch"></div>
+        <p class="obj-id">M42 · NGC 1976</p>
+        <h3>Orion</h3>
+        <dl class="specs">
+          <div><dt>Type</dt><dd>Emission nebula</dd></div>
+          <div><dt>RA / Dec</dt><dd>05ʰ35ᵐ · −05°23′</dd></div>
+          <div><dt>Magnitude</dt><dd>4.0</dd></div>
+          <div><dt>Distance</dt><dd>1.34 kly</dd></div>
+        </dl>
+      </article>
+      <article class="card reveal" style="--g1:#7cf0d0;--g2:#6ea8ff;" tabindex="0">
+        <div class="swatch"></div>
+        <p class="obj-id">NGC 6960</p>
+        <h3>Veil</h3>
+        <dl class="specs">
+          <div><dt>Type</dt><dd>Supernova remnant</dd></div>
+          <div><dt>RA / Dec</dt><dd>20ʰ45ᵐ · +30°43′</dd></div>
+          <div><dt>Magnitude</dt><dd>7.0</dd></div>
+          <div><dt>Distance</dt><dd>2.4 kly</dd></div>
+        </dl>
+      </article>
+      <article class="card reveal" style="--g1:#c68bff;--g2:#ff8ab0;" tabindex="0">
+        <div class="swatch"></div>
+        <p class="obj-id">IC 434</p>
+        <h3>Horsehead</h3>
+        <dl class="specs">
+          <div><dt>Type</dt><dd>Dark nebula</dd></div>
+          <div><dt>RA / Dec</dt><dd>05ʰ41ᵐ · −02°27′</dd></div>
+          <div><dt>Magnitude</dt><dd>6.8</dd></div>
+          <div><dt>Distance</dt><dd>1.5 kly</dd></div>
+        </dl>
+      </article>
+    </div>
+  </section>
+
+  <section id="instrument" class="instrument">
+    <div class="section-head">
+      <p class="kicker">[ INSTRUMENT ]</p>
+      <h2 class="reveal">The array</h2>
+    </div>
+    <div class="inst-grid">
+      <p class="inst-lead reveal">A four-metre segmented reflector on an equatorial mount, tracking the
+        sky at fifteen arc-seconds a second so that, to the eye, the stars hold perfectly still while the Earth turns beneath them.</p>
+      <dl class="inst-specs reveal">
+        <div><dt>Aperture</dt><dd>4.10 m</dd></div>
+        <div><dt>Focal ratio</dt><dd>f / 11</dd></div>
+        <div><dt>Segments</dt><dd>18 hexagonal</dd></div>
+        <div><dt>Seeing</dt><dd>0.4″ median</dd></div>
+        <div><dt>Altitude</dt><dd>2 640 m</dd></div>
+        <div><dt>First light</dt><dd>2026</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="statement">
+    <p class="reveal">The sky is not a ceiling.<br><em>It is a depth.</em></p>
+  </section>
+</main>
+
+<footer class="footer">
+  <p class="foot-brand">NEBULA DRIFT</p>
+  <div class="foot-bottom">
+    <span>© 2026 · Observatory № 7</span>
+    <span>Designed &amp; built by Fable · <a href="./guide/">How this was built →</a></span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

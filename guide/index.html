@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NEBULA DRIFT — Guide · How this was built</title>
+<meta name="description" content="How the NEBULA DRIFT site was built with Fable: a 95,000-point galaxy in three.js, additive blending, and a seedable branch structure." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+<style>
+  :root{--bg:#05060a;--ink:#eef1ff;--dim:#9aa0be;--faint:#5c6180;--accent:#6ea8ff;--line:rgba(238,241,255,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:"Space Grotesk",system-ui,sans-serif;font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:760px;margin:0 auto;padding:clamp(28px,6vw,80px) clamp(20px,5vw,32px)}
+  .top{display:flex;justify-content:space-between;align-items:center;font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:clamp(40px,8vh,90px)}
+  .top a{color:var(--dim)}
+  .brand{font-family:"Oswald",sans-serif;font-weight:600;letter-spacing:.14em;color:var(--ink)}
+  .tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:1.4rem}
+  h1{font-family:"Oswald",sans-serif;font-weight:300;font-size:clamp(2.8rem,9vw,5rem);line-height:1;text-transform:uppercase;letter-spacing:.02em;margin-bottom:1.2rem}
+  h1 em{font-style:normal;color:var(--accent)}
+  .lede{font-size:clamp(1.1rem,2.2vw,1.35rem);color:var(--dim);max-width:56ch;margin-bottom:3.4rem}
+  h2{font-family:"Oswald",sans-serif;font-weight:300;font-size:clamp(1.7rem,4vw,2.6rem);text-transform:uppercase;letter-spacing:.02em;margin:3rem 0 1rem}
+  p{color:var(--dim);margin:0 0 1.1rem;max-width:64ch}
+  strong{color:var(--ink);font-weight:500}
+  ul{color:var(--dim);margin:0 0 1.2rem 1.2rem}li{margin:.4rem 0}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:rgba(255,255,255,.06);padding:.12em .4em;border-radius:3px;color:var(--ink)}
+  pre{background:#0b0d16;border:1px solid var(--line);border-radius:6px;padding:18px 20px;overflow-x:auto;margin:0 0 1.4rem;font-size:.82rem;line-height:1.6;font-family:"JetBrains Mono",monospace}
+  pre code{background:none;padding:0;color:var(--dim)}
+  .stack{list-style:none;margin:0 0 1.2rem;padding:0}
+  .stack li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .stack b{color:var(--ink);font-weight:500;min-width:120px}
+  .rule{height:1px;background:var(--line);margin:3rem 0}
+  footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--line);font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--faint)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="brand" href="../">NEBULA DRIFT</a><a href="../">← Back to site</a></div>
+  <span class="tag">Build guide · Site 04 of 25</span>
+  <h1>Ninety-five thousand <em>points of light</em>.</h1>
+  <p class="lede">NEBULA DRIFT is one of 25 sites built by Fable. The whole background is a single
+    galaxy — a point cloud generated in the browser and turned slowly, forever.</p>
+
+  <h2>The idea</h2>
+  <p>An observatory's website should feel like looking up. So instead of a photo of a galaxy,
+    the site <em>is</em> one — a spiral built from tens of thousands of individual particles,
+    each coloured by how far it sits from the core, drifting at a sidereal crawl.</p>
+
+  <h2>The stack</h2>
+  <ul class="stack">
+    <li><b>3D</b> three.js (r160) loaded as an ES module via import-map — no bundler.</li>
+    <li><b>Visual</b> a <code>THREE.Points</code> cloud with additive blending.</li>
+    <li><b>Motion</b> GSAP for scroll reveals; requestAnimationFrame for rotation + camera parallax.</li>
+    <li><b>Type</b> Oswald (display), Space Grotesk (text), JetBrains Mono (coordinates).</li>
+    <li><b>Host</b> static files on GitHub Pages.</li>
+  </ul>
+
+  <h2>Signature technique: a procedural galaxy</h2>
+  <p>Each particle picks a random radius, snaps to one of four spiral <strong>branches</strong>,
+    twists by an angle proportional to its radius (the spin), then gets scattered by a
+    power-curved random offset so the arms stay dense at the core and wispy at the edge:</p>
+  <pre><code>const radius = Math.pow(Math.random(), 1.4) * R;
+const branch = ((i % BRANCHES) / BRANCHES) * Math.PI * 2;
+const spin   = radius * SPIN;
+pos[i3]   = Math.cos(branch + spin) * radius + scatter();
+pos[i3+2] = Math.sin(branch + spin) * radius + scatter();
+color = insideColor.clone().lerp(outsideColor, radius / R);</code></pre>
+  <p><strong>Additive blending</strong> with <code>depthWrite:false</code> makes overlapping
+    points sum toward white, so the dense core glows without any post-processing or bloom pass.</p>
+
+  <h2>Details that matter</h2>
+  <ul>
+    <li><strong>Performance</strong> — 34k points on phones, 95k on desktop; devicePixelRatio capped at 1.5.</li>
+    <li><strong>Parallax</strong> — the camera eases toward the pointer, so the galaxy has real depth.</li>
+    <li><strong>Reduced motion</strong> — renders one still frame, no rotation, no parallax.</li>
+    <li><strong>Gradient text</strong> — the wordmark uses <code>background-clip:text</code> across cyan→violet.</li>
+  </ul>
+
+  <h2>Ship it on GitHub Pages</h2>
+  <pre><code>git init -b main &amp;&amp; git add -A &amp;&amp; git commit -m "ship"
+gh repo create fable-nebula --public --source=. --push
+gh api --method POST /repos/OWNER/fable-nebula/pages \
+  -f 'source[branch]=main' -f 'source[path]=/'</code></pre>
+  <p>The import-map + ES-module setup means three.js loads straight from a CDN with no build step —
+    ideal for static hosting. Keep paths relative and add <code>.nojekyll</code>.</p>
+
+  <div class="rule"></div>
+  <p>A few lines of trigonometry, one additive-blended material, and a slow rotation — that's an
+    entire galaxy you can hold in a browser tab.</p>
+  <footer>Designed &amp; built by <strong>Fable</strong> · Part of a 25-site showcase · <a href="../">Return to NEBULA DRIFT →</a></footer>
+</div>
+</body>
+</html>
