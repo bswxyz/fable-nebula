@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>NEBULA DRIFT — Guide · How this was built</title>
-<meta name="description" content="How the NEBULA DRIFT site was built with Fable: a 95,000-point galaxy in three.js, additive blending, and a seedable branch structure." />
+<meta name="description" content="How the NEBULA DRIFT site was built with Formwork: a 95,000-point galaxy in three.js, additive blending, and a seedable branch structure." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
@@ -40,7 +40,7 @@
   <div class="top"><a class="brand" href="../">NEBULA DRIFT</a><a href="../">← Back to site</a></div>
   <span class="tag">Build guide · Site 04 of 25</span>
   <h1>Ninety-five thousand <em>points of light</em>.</h1>
-  <p class="lede">NEBULA DRIFT is one of 25 sites built by Fable. The whole background is a single
+  <p class="lede">NEBULA DRIFT is one of 25 sites built by Formwork. The whole background is a single
     galaxy — a point cloud generated in the browser and turned slowly, forever.</p>
 
   <h2>The idea</h2>
@@ -80,8 +80,8 @@ color = insideColor.clone().lerp(outsideColor, radius / R);</code></pre>
 
   <h2>Ship it on GitHub Pages</h2>
   <pre><code>git init -b main &amp;&amp; git add -A &amp;&amp; git commit -m "ship"
-gh repo create fable-nebula --public --source=. --push
-gh api --method POST /repos/OWNER/fable-nebula/pages \
+gh repo create formwork-nebula --public --source=. --push
+gh api --method POST /repos/OWNER/formwork-nebula/pages \
   -f 'source[branch]=main' -f 'source[path]=/'</code></pre>
   <p>The import-map + ES-module setup means three.js loads straight from a CDN with no build step —
     ideal for static hosting. Keep paths relative and add <code>.nojekyll</code>.</p>
@@ -89,7 +89,7 @@ gh api --method POST /repos/OWNER/fable-nebula/pages \
   <div class="rule"></div>
   <p>A few lines of trigonometry, one additive-blended material, and a slow rotation — that's an
     entire galaxy you can hold in a browser tab.</p>
-  <footer>Designed &amp; built by <strong>Fable</strong> · Part of a 25-site showcase · <a href="../">Return to NEBULA DRIFT →</a></footer>
+  <footer>Designed &amp; built by <strong>Formwork</strong> · Part of a 25-site showcase · <a href="../">Return to NEBULA DRIFT →</a></footer>
 </div>
 </body>
 </html>
